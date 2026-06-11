@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0b0e14;
+  --surface: #12161f;
+  --surface-2: #1a1f2b;
+  --border: #232938;
+  --foreground: #f4f6fb;
+  --muted: #8b94a7;
+
+  --accent: #34d399;
+  --accent-foreground: #04130d;
+
+  --tier-bronce: #c9885f;
+  --tier-plata: #c0c6d4;
+  --tier-oro: #f0c14b;
+  --tier-diamante: #7dd3fc;
+
+  --danger: #f87171;
+}
+
+.light {
+  --background: #f5f6fa;
+  --surface: #ffffff;
+  --surface-2: #eef0f5;
+  --border: #dde1ea;
+  --foreground: #11151f;
+  --muted: #6b7384;
+
+  --accent: #059669;
+  --accent-foreground: #f4fbf8;
+
+  --tier-bronce: #b06a3d;
+  --tier-plata: #7c8699;
+  --tier-oro: #b3860a;
+  --tier-diamante: #0e7fb8;
+
+  --danger: #dc2626;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-tier-bronce: var(--tier-bronce);
+  --color-tier-plata: var(--tier-plata);
+  --color-tier-oro: var(--tier-oro);
+  --color-tier-diamante: var(--tier-diamante);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-inter);
+}
+
+html {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
