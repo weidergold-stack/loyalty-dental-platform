@@ -78,6 +78,7 @@ export async function getAdminData() {
       id: p.id as string,
       name: p.full_name as string,
       tier: tier?.name ?? "—",
+      tierId: (membership?.tier_id ?? null) as string | null,
       status: (membership?.status ?? "paused") as string,
       cashback: cashbackBalances.get(p.id) ?? 0,
       stamps: stampBalances.get(p.id) ?? 0,
@@ -118,4 +119,53 @@ export async function getAdminData() {
       tierDistribution,
     },
   };
+}
+
+export async function getMarketingData() {
+  const { clinicId, patients, tiers } = await getAdminData();
+
+  const supabase = await createClient();
+
+  const { data: campaigns } = await supabase
+    .from("notifications_log")
+    .select("*, patients(full_name)")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  type CampaignRow = {
+    channel: string;
+    template: string;
+    status: string;
+    created_at: string;
+  };
+
+  const groups = new Map<
+    string,
+    { channel: string; template: string; created_at: string; total: number; sent: number; pending: number; failed: number }
+  >();
+
+  for (const row of (campaigns ?? []) as CampaignRow[]) {
+    const minuteKey = row.created_at.slice(0, 16);
+    const key = `${row.channel}__${row.template}__${minuteKey}`;
+    const existing = groups.get(key) ?? {
+      channel: row.channel,
+      template: row.template,
+      created_at: row.created_at,
+      total: 0,
+      sent: 0,
+      pending: 0,
+      failed: 0,
+    };
+    existing.total += 1;
+    if (row.status === "sent") existing.sent += 1;
+    else if (row.status === "failed") existing.failed += 1;
+    else existing.pending += 1;
+    groups.set(key, existing);
+  }
+
+  const recentCampaigns = Array.from(groups.values()).sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  return { clinicId, patients, tiers, recentCampaigns };
 }
