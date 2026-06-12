@@ -2,7 +2,8 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { getAdminData } from "@/lib/data/admin";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
-import { Search, Plus } from "lucide-react";
+import { Search } from "lucide-react";
+import { NuevoPacienteModal } from "./NuevoPacienteModal";
 
 const tierBadgeClass: Record<string, string> = {
   Bronce: "border-tier-bronce text-tier-bronce",
@@ -14,7 +15,7 @@ const tierBadgeClass: Record<string, string> = {
 export const dynamic = "force-dynamic";
 
 export default async function PacientesPage() {
-  const { patients } = await getAdminData();
+  const { clinicId, patients, tiers } = await getAdminData();
 
   return (
     <div className="flex flex-col gap-6">
@@ -25,10 +26,7 @@ export default async function PacientesPage() {
             {patients.length} pacientes en el programa de fidelización
           </p>
         </div>
-        <button className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground">
-          <Plus className="h-4 w-4" />
-          Nuevo paciente
-        </button>
+        <NuevoPacienteModal clinicId={clinicId} tiers={tiers} />
       </div>
 
       <Card className="p-0">
