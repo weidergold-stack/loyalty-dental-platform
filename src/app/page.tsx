@@ -42,6 +42,15 @@ export default function Home() {
           </Card>
         </Link>
       </div>
+
+      <footer className="flex gap-4 text-xs text-muted">
+        <Link href="/legal/privacidad" className="hover:underline">
+          Política de privacidad
+        </Link>
+        <Link href="/legal/terminos" className="hover:underline">
+          Términos y condiciones
+        </Link>
+      </footer>
     </div>
   );
 }
