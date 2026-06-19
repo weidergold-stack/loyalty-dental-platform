@@ -6,7 +6,7 @@ import {
   dispatchEmail,
   dispatchWhatsApp,
   dispatchSMS,
-  dispatchPush,
+  dispatchPushToPatient,
 } from "@/lib/notifications";
 
 export type CampaignChannel = "push" | "email" | "sms" | "whatsapp";
@@ -73,7 +73,7 @@ export async function sendCampaign(input: CampaignInput) {
       } else if (input.channel === "sms") {
         status = await dispatchSMS(patient?.phone, input.template);
       } else if (input.channel === "push") {
-        status = await dispatchPush(null, input.template);
+        status = await dispatchPushToPatient(supabase, m.patient_id, input.template);
       }
 
       return { patient_id: m.patient_id, status };
@@ -81,7 +81,7 @@ export async function sendCampaign(input: CampaignInput) {
   );
 
   const rows = results
-    .filter((r): r is PromiseFulfilledResult<{ patient_id: string; status: string }> =>
+    .filter((r): r is PromiseFulfilledResult<{ patient_id: string; status: "sent" | "failed" | "skipped" }> =>
       r.status === "fulfilled"
     )
     .map((r) => ({

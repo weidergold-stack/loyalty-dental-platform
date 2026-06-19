@@ -82,10 +82,31 @@ export async function dispatchPush(
   try {
     await webpush.sendNotification(
       subscription as webpush.PushSubscription,
-      JSON.stringify({ title: "Sonrisa+", body: message })
+      JSON.stringify({ title: "Sonrisa+", body: message, url: "/paciente" })
     );
     return "sent";
   } catch {
     return "failed";
   }
+}
+
+export async function dispatchPushToPatient(
+  supabase: import("@supabase/supabase-js").SupabaseClient,
+  patientId: string,
+  message: string
+): Promise<DispatchResult> {
+  const { data: subs } = await supabase
+    .from("push_subscriptions")
+    .select("subscription")
+    .eq("patient_id", patientId);
+
+  if (!subs || subs.length === 0) return "skipped";
+
+  const results = await Promise.allSettled(
+    subs.map((row) => dispatchPush(row.subscription, message))
+  );
+  const anySuccess = results.some(
+    (r) => r.status === "fulfilled" && r.value === "sent"
+  );
+  return anySuccess ? "sent" : "failed";
 }

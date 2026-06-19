@@ -4,6 +4,7 @@ import { Home, Gift, Stamp, HeartPulse, Users, LogOut } from "lucide-react";
 import { logoutPatient } from "../login/actions";
 import { getPatientBranding } from "@/lib/data/patient";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { PushSetup } from "./push/PushSetup";
 
 const navItems = [
   { href: "/paciente", label: "Inicio", icon: Home },
@@ -48,6 +49,7 @@ export default async function PatientLayout({ children }: { children: React.Reac
           </form>
         </div>
       </header>
+      <PushSetup />
       <main className="flex-1 px-4 pb-24 pt-2">{children}</main>
       <nav className="fixed bottom-0 left-1/2 w-full max-w-md -translate-x-1/2 border-t border-border bg-surface/90 backdrop-blur">
         <div className="grid grid-cols-5">
