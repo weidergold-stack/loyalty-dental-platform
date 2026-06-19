@@ -29,7 +29,7 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  const adminPublicPaths = ["/admin/login", "/admin/forgot-password", "/admin/reset-password"];
+  const adminPublicPaths = ["/admin/login", "/admin/forgot-password", "/admin/reset-password", "/admin/registro"];
   const patientPublicPaths = ["/paciente/login", "/paciente/forgot-password", "/paciente/reset-password"];
 
   if (pathname.startsWith("/admin") && !adminPublicPaths.includes(pathname)) {

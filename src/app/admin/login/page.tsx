@@ -56,12 +56,20 @@ export default async function AdminLoginPage({
           </button>
         </form>
 
-        <a
-          href="/admin/forgot-password"
-          className="mt-4 block text-center text-xs font-medium text-muted hover:text-foreground"
-        >
-          ¿Olvidaste tu contraseña?
-        </a>
+        <div className="mt-4 flex flex-col items-center gap-2">
+          <a
+            href="/admin/forgot-password"
+            className="text-xs font-medium text-muted hover:text-foreground"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+          <a
+            href="/admin/registro"
+            className="text-xs font-medium text-accent hover:underline"
+          >
+            ¿No tienes cuenta? Registra tu clínica
+          </a>
+        </div>
       </Card>
     </div>
   );
