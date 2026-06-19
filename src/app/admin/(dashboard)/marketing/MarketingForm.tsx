@@ -90,7 +90,8 @@ export function MarketingForm({
         setError(result.error);
         return;
       }
-      setSuccess(`Campaña registrada para ${result.count} paciente${result.count === 1 ? "" : "s"}.`);
+      const msg = `✓ Enviado a ${result.count} paciente${result.count === 1 ? "" : "s"}${result.detail ?? ""}.`;
+      setSuccess(msg);
       setTemplate("");
     });
   };
