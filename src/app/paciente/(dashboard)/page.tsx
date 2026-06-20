@@ -1,4 +1,5 @@
 import { DigitalCard } from "@/components/DigitalCard";
+import { WalletButtons } from "@/components/WalletButtons";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { getPatientData } from "@/lib/data/patient";
@@ -37,6 +38,19 @@ export default async function PatientHome() {
         stampsTarget={stampsTarget}
         status={(membership?.status as "active" | "paused" | "cancelled") ?? "paused"}
         clinicName={branding?.display_name ?? "Clínica Sonrisa+"}
+      />
+
+      <WalletButtons
+        appleEnabled={Boolean(
+          process.env.APPLE_SIGNER_CERT_BASE64 &&
+            process.env.APPLE_SIGNER_KEY_BASE64 &&
+            process.env.APPLE_WWDR_CERT_BASE64 &&
+            process.env.APPLE_PASS_TYPE_IDENTIFIER &&
+            process.env.APPLE_TEAM_IDENTIFIER
+        )}
+        googleEnabled={Boolean(
+          process.env.GOOGLE_WALLET_CREDENTIALS_JSON && process.env.GOOGLE_WALLET_ISSUER_ID
+        )}
       />
 
       <Card>
