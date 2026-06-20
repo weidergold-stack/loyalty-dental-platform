@@ -22,19 +22,12 @@ const tierColors: Record<string, string> = {
   Diamante: "#7dd3fc",
 };
 
-const revenueTrend = [
-  { month: "Ene", revenue: 14200000 },
-  { month: "Feb", revenue: 14900000 },
-  { month: "Mar", revenue: 15600000 },
-  { month: "Abr", revenue: 16800000 },
-  { month: "May", revenue: 17500000 },
-  { month: "Jun", revenue: 18450000 },
-];
-
 export function DashboardCharts({
   tierDistribution,
+  revenueTrend,
 }: {
   tierDistribution: { tier: string; count: number }[];
+  revenueTrend: { month: string; revenue: number }[];
 }) {
   return (
     <div className="grid gap-4 lg:grid-cols-2">

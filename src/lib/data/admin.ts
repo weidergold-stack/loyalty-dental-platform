@@ -104,6 +104,22 @@ export async function getAdminData() {
     count: adminPatients.filter((p) => p.tier === t.name).length,
   }));
 
+  // Ingresos acumulados mes a mes (últimos 6 meses)
+  // Para cada mes: suma de monthly_amount de membresías activas creadas en o antes de ese mes
+  const now = new Date();
+  const revenueTrend = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
+    const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59);
+    const label = d.toLocaleString("es-CO", { month: "short" });
+    const revenue = (memberships ?? [])
+      .filter((m) => {
+        if (!m.start_date) return false;
+        return new Date(m.start_date) <= endOfMonth;
+      })
+      .reduce((sum, m) => sum + Number(m.monthly_amount), 0);
+    return { month: label.charAt(0).toUpperCase() + label.slice(1), revenue };
+  });
+
   return {
     clinicId: clinic?.id as string,
     patients: adminPatients,
@@ -117,6 +133,7 @@ export async function getAdminData() {
       cashbackIssued,
       cashbackRedeemed,
       tierDistribution,
+      revenueTrend,
     },
   };
 }

@@ -39,7 +39,7 @@ export default async function AdminDashboard() {
         />
       </div>
 
-      <DashboardCharts tierDistribution={kpis.tierDistribution} />
+      <DashboardCharts tierDistribution={kpis.tierDistribution} revenueTrend={kpis.revenueTrend} />
     </div>
   );
 }
